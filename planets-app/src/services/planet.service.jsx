@@ -5,7 +5,7 @@
 const getPlanetsList = async inputUrl => {
     console.log("INput", inputUrl);
     let url = 'https://swapi.dev/api/planets/';
-    if (inputUrl !== null && inputUrl !== undefined && url.length > 0) {
+    if (inputUrl && inputUrl !== null && inputUrl !== undefined && url.length > 0) {
       url = inputUrl;
     }
     console.log("DEBUG", url);

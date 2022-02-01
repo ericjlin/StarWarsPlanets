@@ -1,10 +1,10 @@
 import { planetService } from "../../services";
 import { planetConstants } from "../constants";
 
-export const getPlanetData = (page) => async dispatch => {
+export const getPlanetData = url => async dispatch => {
     dispatch({ type: planetConstants.GET_PLANET_REQUEST_OUT });
-
-    planetService.getPlanetsList()
+    console.log("ACTION", url);
+    planetService.getPlanetsList(url)
         .then(resp => resp.json())
         .then(data => {
             const barChartData = [];

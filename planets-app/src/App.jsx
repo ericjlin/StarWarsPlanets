@@ -75,7 +75,7 @@ const App = () => {
           </Row>
         </React.Fragment>)
         }
-        {/* <Pagination className="justify-content-center">
+        <Pagination className="justify-content-center">
           <Pagination.First onClick={() => {
             // dispatch(getPlanetData(1));
           }} />
@@ -88,9 +88,9 @@ const App = () => {
           { next ?
           <Pagination.Next onClick={() => {
             dispatch(getPlanetData(next));
-          }}/> : <Pagination.next disabled/>}
+          }}/> : <Pagination.Next disabled/>}
           <Pagination.Last />
-        </Pagination> */}
+        </Pagination>
   </Container>
   )
 };
