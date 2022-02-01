@@ -16,6 +16,8 @@ const App = () => {
   const barChartData = useSelector(state => state.planetReducer.data);
   const next = useSelector(state => state.planetReducer.next);
   const prev = useSelector(state => state.planetReducer.previous);
+  const pages = useSelector(state => state.planetReducer.pages);
+  const last = useSelector(state => state.planetReducer.lastPage);
 
   useEffect(() => {
     dispatch(getPlanetData(''));
@@ -44,63 +46,77 @@ const App = () => {
   };
 
   return (
-  <Container>
-    <Row className='justify-content-center'>Star Wars Planet</Row>
-    { isLoading ? (
-        <Row className='justify-content-center'>Loading...</Row>) : (
-        <React.Fragment>
-          <Row className='justify-content-center' style={{
-            bottom: 10
-          }}>
-         {barChartData ? <Bar options={options} data={barChartData}/> : <Row></Row>}
-          </Row>
-          <Row className='justify-content-center'>
-            <Table striped bordered hover>
-              <tr>
-                <th>Name</th>
-                <th>Population</th>
-                <th>Rotation Period</th>
-                <th>Orbital Period</th>
-                <th>Diameter</th>
-                <th>Climate</th>
-                <th>Surface Water</th>
-              </tr>
-              <tbody>
-                {planetList.map((planet) => {
-                  return (
-                    <tr key={"index_" + planet.name}>
-                      <td>{planet.name}</td>
-                      <td>{planet.population}</td>
-                      <td>{planet.rotation_period}</td>
-                      <td>{planet.orbital_period}</td>
-                      <td>{planet.diameter}</td>
-                      <td>{planet.climate}</td>
-                      <td>{planet.surface_water}</td>
-                    </tr>
-                    );
-                })}
-              </tbody>
-            </Table>
-          </Row>
-        </React.Fragment>)
-        }
-        <Pagination className="justify-content-center">
-          <Pagination.First onClick={() => {
-            // dispatch(getPlanetData(1));
-          }} />
-          { prev ?
-          <Pagination.Prev onClick={() => {
-            dispatch(getPlanetData(prev));
-          }}/> : <Pagination.Prev disabled/>
+    <Container>
+      <Row className='justify-content-center'>Welcome to Star Wars Planet!</Row>
+      { isLoading ? (
+          <Row className='justify-content-center'>Loading...</Row>) : (
+          <React.Fragment>
+            <Row className='justify-content-center' style={{
+              bottom: 10
+            }}>
+              {barChartData ? <Bar options={options} data={barChartData}/> : <Row></Row>}
+            </Row>
+            <Row className='justify-content-center'>
+              <Table striped bordered hover>
+                <tr>
+                  <th>Name</th>
+                  <th>Population</th>
+                  <th>Rotation Period</th>
+                  <th>Orbital Period</th>
+                  <th>Diameter</th>
+                  <th>Climate</th>
+                  <th>Surface Water</th>
+                </tr>
+                <tbody>
+                  {planetList.map((planet) => {
+                    return (
+                      <tr key={"index_" + planet.name}>
+                        <td>{planet.name}</td>
+                        <td>{planet.population}</td>
+                        <td>{planet.rotation_period}</td>
+                        <td>{planet.orbital_period}</td>
+                        <td>{planet.diameter}</td>
+                        <td>{planet.climate}</td>
+                        <td>{planet.surface_water}</td>
+                      </tr>
+                      );
+                  })}
+                </tbody>
+              </Table>
+            </Row>
+          </React.Fragment>)
           }
-          <Pagination.Ellipsis />
-          { next ?
-          <Pagination.Next onClick={() => {
-            dispatch(getPlanetData(next));
-          }}/> : <Pagination.Next disabled/>}
-          <Pagination.Last />
-        </Pagination>
-  </Container>
+
+          {/* Futher improvements can include scaling pagination to handle large number of pages */}
+          <Pagination className="justify-content-center">
+            <Pagination.First onClick={() => {
+              dispatch(getPlanetData(''));
+            }} />
+            { prev ?
+            <Pagination.Prev onClick={() => {
+              dispatch(getPlanetData(prev));
+            }}/> : <Pagination.Prev disabled/>
+            }
+
+            {
+                pages.map((link, index) => {
+                  return(
+                    <Pagination.Item onClick={() => {
+                      dispatch(getPlanetData(link))
+                    }}>{ index + 1 }</Pagination.Item>
+                  );
+                })
+            }
+
+            { next ?
+            <Pagination.Next onClick={() => {
+              dispatch(getPlanetData(next));
+            }}/> : <Pagination.Next disabled/>}
+            <Pagination.Last onClick={() => {
+              dispatch(getPlanetData(last))
+            }}/>
+          </Pagination>
+    </Container>
   )
 };
 

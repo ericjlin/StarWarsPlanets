@@ -9,7 +9,9 @@ const initialState = {
     error: undefined,
     requestOut: false,
     previous: null,
-    next: null
+    next: null,
+    pages: [],
+    lastPage: ''
 }
 
 export const planetReducer = (state = initialState, action) => {
@@ -41,7 +43,9 @@ export const planetReducer = (state = initialState, action) => {
             return {
                 ...state,
                 previous: action.data.prev,
-                next: action.data.next   
+                next: action.data.next,
+                pages: action.data.pagesLink,
+                lastPage: action.data.lastPage   
             }
         case planetConstants.GET_PLANET_SUCCESS:
             return { ...state, error: undefined, requestOut: false };

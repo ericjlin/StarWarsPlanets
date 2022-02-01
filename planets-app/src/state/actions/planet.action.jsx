@@ -1,10 +1,10 @@
 import { planetService } from "../../services";
 import { planetConstants } from "../constants";
 
-export const getPlanetData = url => async dispatch => {
+export const getPlanetData = (url) => async dispatch => {
     dispatch({ type: planetConstants.GET_PLANET_REQUEST_OUT });
-    console.log("ACTION", url);
-    planetService.getPlanetsList(url)
+    planetService
+        .getPlanetsList(url)
         .then(resp => resp.json())
         .then(data => {
             const barChartData = [];
@@ -15,11 +15,25 @@ export const getPlanetData = url => async dispatch => {
                 data: data.results
             });
 
+            // Total pages depends on the amount of data present on each page
+            // Will need to change if number of items per page is updated
+            const paginationLinks = []
+            let totalPages = Math.ceil(data.count / 10);
+            let pageIndex = 1;
+            // Creating all page links
+            while (totalPages && pageIndex <= totalPages) {
+                let pageUrl = 'https://swapi.dev/api/planets/?page=' + pageIndex.toString();
+                paginationLinks.push(pageUrl);
+                pageIndex += 1
+            }
+
             dispatch({
                 type: planetConstants.SET_PAGINATION,
                 data: {
                     next: data.next ? data.next : null,
-                    prev: data.previous ? data.previous : null
+                    prev: data.previous ? data.previous : null,
+                    pagesLink: paginationLinks,
+                    lastPage: 'https://swapi.dev/api/planets/?page=' + totalPages.toString()
                 }
             });
 
