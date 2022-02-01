@@ -26,7 +26,8 @@ export const planetReducer = (state = initialState, action) => {
                     labels: action.barChartLabel,
                     datasets: [{
                         label: "population",
-                        data: action.barChartData
+                        data: action.barChartData,
+                        backgroundColor: 'rgba(53, 162, 235, 0.5)',
                     }]
                 }
             }

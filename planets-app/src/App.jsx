@@ -32,6 +32,15 @@ const App = () => {
         text: 'Star Wars Population',
       },
     },
+    scales: {
+      x: {
+        display: true
+      },
+      y: {
+        display: true,
+        type: 'logarithmic'
+      }
+    }
   };
 
   return (
