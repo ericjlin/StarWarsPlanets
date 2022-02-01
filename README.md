@@ -2,4 +2,5 @@
 
 To start app:
 
-cd planets-app. npm start
+cd planets-app <br />
+npm start
