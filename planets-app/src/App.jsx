@@ -8,12 +8,13 @@ import { Container, Row, Col, Table } from 'react-bootstrap';
 import Pagination from 'react-bootstrap/Pagination';
 import PageItem from 'react-bootstrap/PageItem';
 import { Bar } from 'react-chartjs-2';
+import PlanetNavbar from './components/PlanetNavbar';
 
 const App = () => {
   const dispatch = useDispatch();
   const planetList = useSelector( state => state.planetReducer.list);
-  const isLoading = useSelector(state => state.planetReducer.requestOut);
   const barChartData = useSelector(state => state.planetReducer.data);
+  const title = useSelector(state => state.planetReducer.chartTitle);
   const next = useSelector(state => state.planetReducer.next);
   const prev = useSelector(state => state.planetReducer.previous);
   const pages = useSelector(state => state.planetReducer.pages);
@@ -25,13 +26,14 @@ const App = () => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
         display: false
       },
       title: {
         display: true,
-        text: 'Star Wars Population',
+        text: title,
       },
     },
     scales: {
@@ -46,77 +48,75 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <Row className='justify-content-center'>Welcome to Star Wars Planet!</Row>
-      { isLoading ? (
-          <Row className='justify-content-center'>Loading...</Row>) : (
-          <React.Fragment>
-            <Row className='justify-content-center' style={{
-              bottom: 10
-            }}>
-              {barChartData ? <Bar options={options} data={barChartData}/> : <Row></Row>}
-            </Row>
-            <Row className='justify-content-center'>
-              <Table striped bordered hover>
-                <tr>
-                  <th>Name</th>
-                  <th>Population</th>
-                  <th>Rotation Period</th>
-                  <th>Orbital Period</th>
-                  <th>Diameter</th>
-                  <th>Climate</th>
-                  <th>Surface Water</th>
-                </tr>
-                <tbody>
-                  {planetList.map((planet) => {
-                    return (
-                      <tr key={"index_" + planet.name}>
-                        <td>{planet.name}</td>
-                        <td>{planet.population}</td>
-                        <td>{planet.rotation_period}</td>
-                        <td>{planet.orbital_period}</td>
-                        <td>{planet.diameter}</td>
-                        <td>{planet.climate}</td>
-                        <td>{planet.surface_water}</td>
-                      </tr>
-                      );
-                  })}
-                </tbody>
-              </Table>
-            </Row>
-          </React.Fragment>)
-          }
-
-          {/* Futher improvements can include scaling pagination to handle large number of pages */}
-          <Pagination className="justify-content-center">
-            <Pagination.First onClick={() => {
-              dispatch(getPlanetData(''));
-            }} />
-            { prev ?
-            <Pagination.Prev onClick={() => {
-              dispatch(getPlanetData(prev));
-            }}/> : <Pagination.Prev disabled/>
-            }
-
-            {
-                pages.map((link, index) => {
-                  return(
-                    <Pagination.Item onClick={() => {
-                      dispatch(getPlanetData(link))
-                    }}>{ index + 1 }</Pagination.Item>
+    <React.Fragment>
+      <PlanetNavbar />
+      <Container>
+        <br />
+        <Row className='justify-content-center'>
+          <Bar 
+            options={options}
+            data={barChartData}
+            />
+        </Row>
+        <br />
+        <Row className='justify-content-center'>
+          <Table striped bordered hover>
+            <tr>
+              <th>Name</th>
+              <th>Population</th>
+              <th>Rotation Period</th>
+              <th>Orbital Period</th>
+              <th>Diameter</th>
+              <th>Climate</th>
+              <th>Surface Water</th>
+            </tr>
+            <tbody>
+              {planetList.map((planet) => {
+                return (
+                  <tr key={"index_" + planet.name}>
+                    <td>{planet.name}</td>
+                    <td>{planet.population}</td>
+                    <td>{planet.rotation_period}</td>
+                    <td>{planet.orbital_period}</td>
+                    <td>{planet.diameter}</td>
+                    <td>{planet.climate}</td>
+                    <td>{planet.surface_water}</td>
+                  </tr>
                   );
-                })
-            }
+              })}
+            </tbody>
+          </Table>
+        </Row>
 
-            { next ?
-            <Pagination.Next onClick={() => {
-              dispatch(getPlanetData(next));
-            }}/> : <Pagination.Next disabled/>}
-            <Pagination.Last onClick={() => {
-              dispatch(getPlanetData(last))
-            }}/>
-          </Pagination>
-    </Container>
+        {/* Futher improvements can include scaling pagination to handle large number of pages */}
+        <Pagination className="justify-content-center">
+          <Pagination.First onClick={() => {
+            dispatch(getPlanetData(''));
+          }} />
+          { prev ?
+          <Pagination.Prev onClick={() => {
+            dispatch(getPlanetData(prev));
+          }}/> : <Pagination.Prev disabled/>
+          }
+          {
+              pages.map((link, index) => {
+                return(
+                  <Pagination.Item onClick={() => {
+                    dispatch(getPlanetData(link))
+                  }}>{ index + 1 }</Pagination.Item>
+                );
+              })
+          }
+          { next ?
+          <Pagination.Next onClick={() => {
+            dispatch(getPlanetData(next));
+          }}/> : <Pagination.Next disabled/>}
+          <Pagination.Last onClick={() => {
+            dispatch(getPlanetData(last))
+          }}/>
+        </Pagination>
+      </Container>
+    </React.Fragment>
   )
 };
 

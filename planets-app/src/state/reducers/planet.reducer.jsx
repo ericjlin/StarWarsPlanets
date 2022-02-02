@@ -6,6 +6,7 @@ const initialState = {
         label: "population",
         datasets: []
     },
+    chartTitle: "Population",
     error: undefined,
     requestOut: false,
     previous: null,
@@ -21,18 +22,20 @@ export const planetReducer = (state = initialState, action) => {
                 ...state,
                 list: action.data
             };
-        case planetConstants.SET_BARCHART_POPULATION:
+        case planetConstants.SET_BARCHART_DATA:
             return {
                 ...state,
                 data: {
                     labels: action.barChartLabel,
                     datasets: [{
-                        label: "population",
+                        label: action.title,
                         data: action.barChartData,
                         backgroundColor: 'rgba(53, 162, 235, 0.5)',
                     }]
-                }
+                },
+                chartTitle: action.title
             }
+
         case planetConstants.GET_PLANET_REQUEST_OUT:
             return {
                 ...state,
