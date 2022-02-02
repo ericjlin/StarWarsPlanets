@@ -9,10 +9,16 @@ export const getPlanetData = (url) => async dispatch => {
         .then(data => {
             const barChartData = [];
             const barChartLabel = [];
-
-            dispatch({
-                type: planetConstants.SET_PLANET_LIST,
-                data: data.results
+            const results = data.results;
+            
+            results.sort((first, second) => {
+                if (first.name < second.name) {
+                    return -1;
+                }
+                if (first.name > second.name) {
+                    return 1;
+                }
+                return 0;
             });
 
             // Total pages depends on the amount of data present on each page
@@ -37,9 +43,14 @@ export const getPlanetData = (url) => async dispatch => {
                 }
             });
 
+            dispatch({
+                type: planetConstants.SET_PLANET_LIST,
+                data: results
+            });
+
             // Create bar chart data
             // Check for outlier
-            data.results.forEach(element => {
+            results.forEach(element => {
                 const parsed = parseInt(element.population)
                 if (isNaN(parsed)) {
                     barChartData.push(0);
