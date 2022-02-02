@@ -5,7 +5,7 @@ import {
   NavDropdown,
   Container
 } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeBarChartAttribute } from '../state/actions';
 import logo from '../Star-wars-logo-new-tall.jpeg';
 
@@ -29,7 +29,7 @@ const PlanetNavbar = () => {
           <Navbar.Brand>Planet Dashboard</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
-            <Nav className="me-auto">
+            <Nav>
               <NavDropdown title="Set Attribute" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={() => {
                 dispatch(changeBarChartAttribute('population'))

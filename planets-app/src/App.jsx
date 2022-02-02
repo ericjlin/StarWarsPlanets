@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Chart as ChartJS } from 'chart.js/auto'
@@ -60,7 +59,7 @@ const App = () => {
         </Row>
         <br />
         <Row className='justify-content-center'>
-          <Table striped bordered hover>
+          <Table striped bordered hover responsive>
             <tr>
               <th>Name</th>
               <th>Population</th>
